@@ -8,24 +8,15 @@ class TemplateHolder(object):
         self._ENDPOINT = '__end__'
         self._trie = {}
         self._id_to_template = template_list
-        self._template_to_id = {k: idx for idx, k in enumerate(template_list)}
 
         for idx, template in enumerate(template_list):
             self._trie_insert(template, idx)
-            self._template_to_id[template] = idx
-
-        print(json.dumps(self._trie, indent=4, ensure_ascii=False))
 
     # public
     def get_template_by_id(self, id: int) -> str:
         if id < 0 or id >= len(self._id_to_template):
             raise Exception('Invalid id of templates')
         return self._id_to_template[id]
-
-    def get_id_by_template(self, template: str) -> int:
-        if template not in self._template_to_id:
-            raise Exception('Invalid template')
-        return self._template_to_id[template]
 
     def check_sentence(self, sentence: str) -> (int, list):
         tokens = []
@@ -53,19 +44,3 @@ class TemplateHolder(object):
                 continue
             current_dict = current_dict.setdefault(word, {})
         current_dict[self._ENDPOINT] = id
-
-
-# def test():
-#     templates = [
-#       "В модуле {} произошла ошибка {} {}",
-#       "В модуле произошла ошибка в модуле {} {} {}",
-#       "Все разнесло {} {}"
-#     ]
-#     templates_holder = TemplateHolder(templates)
-#
-#     print(templates_holder.check('В модуле произошла ошибка в модуле TAKSI aaaaa bbbb'))
-#     print(templates_holder.check('Все разнесло к хуям'))
-#     print(templates_holder.check('Все разнесло к'))
-#
-#
-# test()
