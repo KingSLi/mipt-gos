@@ -20,18 +20,12 @@ def main():
         templates_list = json.load(f)
     compressor = Compressor(templates_list)
 
-    with open(args.input_file, 'r') as f:
-        lines = f.readlines()
-
     if args.mode == 'compress':
-        result = compressor.compress(lines)
+        compressor.compress(args.input_file, args.output_file)
     elif args.mode == 'decompress':
-        result = compressor.decompress(lines)
+        compressor.decompress(args.input_file, args.output_file)
     else:
         raise Exception('Invalid mode')
-
-    with open(args.output_file, 'w') as f:
-        f.writelines(result)
 
 
 if __name__ == '__main__':
