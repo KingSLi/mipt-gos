@@ -17,7 +17,7 @@ class Compressor(object):
             idx, tokens = self.template_holder.check_sentence(line)
             if idx == -1:
                 raise Exception('line does not match to any template')
-            result.append(f'{idx},{json.dumps(tokens)}\n')
+            result.append(f'{idx},{json.dumps(tokens, separators=(",", ":"))}\n')
         return result
 
     def decompress(self, lines) -> list:
