@@ -1,6 +1,3 @@
-import json
-
-
 class TemplateHolder(object):
 
     def __init__(self, template_list, placeholder='{}'):
