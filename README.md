@@ -9,11 +9,32 @@
 Пример: В модуле ТАКСИ произошла ошибка доступа водителя ИВАНА (В модуле НАЗВАНИЕ_МОДУЛЯ произошла ошибка НАЗВАНИЕ_ОШИБКИ СУБЪЕКТ_ОШИБКИ)
 
 ## Входные данные:
-1) Файл с диагностическими сообщениями (каждое сообщение на новой строке)
-2) Файл с шаблонами сообщений
+2) Файл с шаблонами сообщений. Вместо `{}` в сообщениях должно лежать слово(Не содержащий пробелов, кавычек и запятых набор букв и цифр, при необходимости используйте `_`) 
+    ```json
+    [
+      "В модуле {} произошла ошибка {} у {}",
+      "Произошла ошибка в модуле {} {}",
+      "Все разнесло {} {}"
+    ]
+    ```
 
+2) Файл с диагностическими сообщениями (каждое сообщение на новой строке). Сообщения должны подходить под один из паттернов файла с шаблонами, иначе сжатие/разжатие не удастся. Файл должен заканчиваться переводом строки.
+    ```
+    В модуле ТАКСИ произошла ошибка ДОСТУПА у ИВАНА 
+    В модуле ЕДА произошла ошибка НОБРАБОТННАЯ у ПЕТРА
+    ... 
+    ```
 
-## Как запускать
-```
-python3 --input_file data/test1_result.txt --mode decompress --output_file data/test1_decompress_result.txt
-```
+## Подготовка окружения
+Выполнить в корне репозитория
+1) `virtualenv venv -p python3.9`
+1) `source venv/bin/activate`
+1) `export PYTHONPATH=${PYTHONPATH}:.`
+
+### Использование
+1) `python compressor.py --mode compress --input_file tests/raw_messages.txt --output_file tests/raw_compresses.txt --templates tests/templates.json`
+1) `python compressor.py --mode decompress --input_file tests/raw_compresses.txt --output_file tests/raw_compresses_decompressed.txt --templates tests/templates.json`
+
+### Запуск тестов 
+1) `cd tests`
+1) `python tests/test.py`
